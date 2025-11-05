@@ -1,0 +1,13 @@
+.personnage {
+    border: 1px solid #ccc;
+    padding: 10px;
+    margin: 10px;
+    display: inline-block;
+    width: 200px;
+    text-align: center;
+}
+.options a {
+    margin: 5px;
+    text-decoration: none;
+    color: blue;
+}
