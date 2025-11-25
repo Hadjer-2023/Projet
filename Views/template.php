@@ -7,7 +7,17 @@
     <title><?= $this->e($title) ?></title>
 </head>
 <body>
-    <header><nav></nav></header>
+    <header>
+        <nav>
+            <ul>
+                <li><a href="index.php?action=home">Accueil</a></li>
+                <li><a href="index.php?action=add-perso">Ajouter un personnage</a></li>
+                <li><a href="index.php?action=add-perso-element">Ajouter par élément</a></li>
+                <li><a href="index.php?action=logs">Logs</a></li>
+                <li><a href="index.php?action=login">Connexion</a></li>
+            </ul>
+        </nav>
+    </header>
 
     <main id="contenu">
         <?= $this->section('content') ?>

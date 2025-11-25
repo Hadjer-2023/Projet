@@ -15,4 +15,31 @@ class PersonnageDAO extends BasePDODAO {
         $res = $this->execRequest($sql, [$id])->fetch(\PDO::FETCH_ASSOC);
         return $res ?: null;
     }
+
+    // Ajoute un nouveau personnage  ✅ CORRIGÉ
+    public function insert(string $name, string $element, string $unitclass, string $origin, int $rarity): void {
+        // 1) Générer un ID unique car ta table a une clé primaire 'id'
+        $id = uniqid();
+
+        // 2) Insérer aussi l’ID dans la base
+        $sql = "INSERT INTO personnage (id, name, element, unitclass, origin, rarity)
+                VALUES (?, ?, ?, ?, ?, ?)";
+
+        // 3) Exécuter la requête
+        $this->execRequest($sql, [$id, $name, $element, $unitclass, $origin, $rarity]);
+    }
+
+    // Met à jour un personnage
+    public function update(string $id, string $name, string $element, string $unitclass, string $origin, string $rarity): void {
+        $sql = "UPDATE personnage 
+                SET name = ?, element = ?, unitclass = ?, origin = ?, rarity = ? 
+                WHERE id = ?";
+        $this->execRequest($sql, [$name, $element, $unitclass, $origin, $rarity, $id]);
+    }
+
+    // Supprime un personnage
+    public function delete(string $id): void {
+        $sql = "DELETE FROM personnage WHERE id = ?";
+        $this->execRequest($sql, [$id]);
+    }
 }

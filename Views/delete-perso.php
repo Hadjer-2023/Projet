@@ -1,0 +1,1 @@
+<h1>Supprimer un personnage</h1>

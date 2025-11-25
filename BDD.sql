@@ -1,7 +1,2 @@
-CREATE DATABASE genshin_db
-CHARACTER SET utf8mb4
-COLLATE utf8mb4_general_ci;
-
-
-
-SELECT * FROM personnage;
+INSERT INTO personnage (name, element, unitclass, origin, rarity, url_img)
+VALUES ('Amber', 'Pyro', 'Bow', 'Mondstadt', 4, 'Amber.png');
