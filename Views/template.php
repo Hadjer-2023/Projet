@@ -6,23 +6,26 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title><?= $this->e($title) ?></title>
 </head>
+
 <body>
-    <header>
-        <nav>
-            <ul>
-                <li><a href="index.php?action=home">Accueil</a></li>
-                <li><a href="index.php?action=add-perso">Ajouter un personnage</a></li>
-                <li><a href="index.php?action=add-perso-element">Ajouter par élément</a></li>
-                <li><a href="index.php?action=logs">Logs</a></li>
-                <li><a href="index.php?action=login">Connexion</a></li>
-            </ul>
-        </nav>
+
+    <!-- NAVBAR MODERNE -->
+    <header class="navbar">
+        <div class="logo">Genshin DB</div>
+
+        <div class="nav-links">
+            <a href="/projet/?action=index">Accueil</a>
+            <a href="/projet/?action=add-perso">Ajouter un personnage</a>
+            <a href="/projet/?action=add-perso-element">Ajouter par élément</a>
+            <a href="/projet/?action=logs">Logs</a>
+            <a href="/projet/?action=login">Connexion</a>
+        </div>
     </header>
 
+    <!-- CONTENU PRINCIPAL -->
     <main id="contenu">
         <?= $this->section('content') ?>
     </main>
 
-    <footer></footer>
 </body>
 </html>
