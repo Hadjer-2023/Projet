@@ -1,4 +1,6 @@
 <?php
+session_start(); // ✅ OBLIGATOIRE pour login/logout
+
 require_once __DIR__ . '/vendor/autoload.php';
 
 use League\Plates\Engine;
@@ -22,6 +24,13 @@ $router->add('logs', [$controller, 'logs']);
 $router->add('login', [$controller, 'login']);
 $router->add('edit-perso', fn() => $controller->updatePerso($_GET['id'] ?? null));
 $router->add('del-perso', fn() => $controller->deletePerso($_GET['id'] ?? null));
+
+// ✅ nouvelle route LOGOUT
+$router->add('logout', function () {
+    session_destroy();
+    header("Location: /projet/?action=login");
+    exit;
+});
 
 // Exécution du routeur AVEC affichage des vraies erreurs
 try {

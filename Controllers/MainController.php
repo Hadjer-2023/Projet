@@ -8,12 +8,16 @@ class MainController {
     private Engine $templates;
     private PersonnageDAO $dao;
 
+    // 🔐 Identifiants admin simples pour le TP
+    private string $adminEmail = "admin@test.com";
+    private string $adminPassword = "1234";
+
     public function __construct(Engine $templates) {
         $this->templates = $templates;
         $this->dao = new PersonnageDAO();
     }
 
-    // PAGE D’ACCUEIL (avec message optionnel)
+    // PAGE D’ACCUEIL
     public function index(?string $message = null): void {
         $personnages = $this->dao->getAll();
 
@@ -24,10 +28,9 @@ class MainController {
         ]);
     }
 
-    // AJOUTER UN PERSONNAGE (CREATE)
+    // AJOUTER UN PERSONNAGE
     public function addPerso(): void {
 
-        // POST = on enregistre
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
             $name = $_POST['name'] ?? '';
@@ -36,7 +39,6 @@ class MainController {
             $origin = $_POST['origin'] ?? '';
             $rarity = $_POST['rarity'] ?? '';
 
-            // Vérification simple
             if (empty($name) || empty($element) || empty($unitclass) || empty($origin) || empty($rarity)) {
                 echo $this->templates->render('add-perso', [
                     'title' => 'Ajouter un personnage',
@@ -45,15 +47,12 @@ class MainController {
                 return;
             }
 
-            // INSERT
             $this->dao->insert($name, $element, $unitclass, $origin, $rarity);
 
-            // MESSAGE DE SUCCÈS
             $this->index("Personnage ajouté avec succès !");
             return;
         }
 
-        // GET = afficher formulaire
         echo $this->templates->render('add-perso', [
             'title' => 'Ajouter un personnage'
         ]);
@@ -66,21 +65,47 @@ class MainController {
         ]);
     }
 
-    // LOGS
-    public function logs(): void {
-        echo $this->templates->render('logs', [
-            'title' => 'Logs'
-        ]);
-    }
-
-    // LOGIN
+    // 🔐 LOGIN
     public function login(): void {
+
+        if (!empty($_SESSION["user"])) {
+            header("Location: /projet/?action=index");
+            exit;
+        }
+
+        if ($_SERVER["REQUEST_METHOD"] === "POST") {
+
+            $email = $_POST['email'] ?? '';
+            $password = $_POST['password'] ?? '';
+
+            if ($email === $this->adminEmail && $password === $this->adminPassword) {
+
+                $_SESSION["user"] = $email;
+
+                header("Location: /projet/?action=index");
+                exit;
+            }
+
+            echo $this->templates->render("login", [
+                "title" => "Connexion",
+                "message" => "Identifiants incorrects."
+            ]);
+            return;
+        }
+
         echo $this->templates->render('login', [
             'title' => 'Connexion'
         ]);
     }
 
-    // MODIFIER UN PERSONNAGE (UPDATE)
+    // 🔴 LOGOUT
+    public function logout(): void {
+        session_destroy();
+        header("Location: /projet/?action=login");
+        exit;
+    }
+
+    // MODIFIER UN PERSONNAGE
     public function updatePerso(?string $id): void {
 
         if (!$id) {
@@ -88,7 +113,6 @@ class MainController {
             return;
         }
 
-        // POST = traitement update
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
             $name = $_POST['name'] ?? '';
@@ -103,7 +127,6 @@ class MainController {
             return;
         }
 
-        // GET = afficher formulaire pré-rempli
         $personnage = $this->dao->getByID($id);
 
         echo $this->templates->render('update-perso', [
@@ -112,7 +135,7 @@ class MainController {
         ]);
     }
 
-    // SUPPRIMER UN PERSONNAGE (DELETE)
+    // SUPPRIMER
     public function deletePerso(?string $id): void {
 
         if (!$id) {
@@ -123,5 +146,12 @@ class MainController {
         $this->dao->delete($id);
 
         $this->index("Personnage supprimé !");
+    }
+
+    // 📄 PAGE DES LOGS
+    public function logs(): void {
+        echo $this->templates->render('logs', [
+            'title' => 'Logs'
+        ]);
     }
 }

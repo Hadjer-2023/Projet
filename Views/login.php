@@ -1,14 +1,22 @@
+<?php $this->layout('template', ['title' => 'Connexion']) ?>
 
-<h1>Login</h1>
+<h1>Connexion</h1>
 
-<form>
+<?php if (!empty($message)): ?>
+    <div class="message error">
+        <?= $this->e($message) ?>
+    </div>
+<?php endif; ?>
+
+<form method="POST" action="/projet/?action=login">
+
     <label>Email :</label>
-    <input type="email">
+    <input type="text" name="email" required>
 
     <br><br>
 
     <label>Mot de passe :</label>
-    <input type="password">
+    <input type="password" name="password" required>
 
     <br><br>
 

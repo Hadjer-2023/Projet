@@ -18,7 +18,12 @@
             <a href="/projet/?action=add-perso">Ajouter un personnage</a>
             <a href="/projet/?action=add-perso-element">Ajouter par élément</a>
             <a href="/projet/?action=logs">Logs</a>
-            <a href="/projet/?action=login">Connexion</a>
+
+            <?php if (!empty($_SESSION["user"])): ?>
+                <a href="/projet/?action=logout">Déconnexion</a>
+            <?php else: ?>
+                <a href="/projet/?action=login">Connexion</a>
+            <?php endif; ?>
         </div>
     </header>
 
